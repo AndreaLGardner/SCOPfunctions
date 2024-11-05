@@ -81,6 +81,7 @@
 DE_MAST_RE_seurat = function(
   object,
   random_effect.vars,
+  random_effect_type="crossed",
   ident.1 = NULL,
   ident.2 = NULL,
   cells.1 = NULL,
@@ -280,9 +281,17 @@ DE_MAST_RE_seurat = function(
 
   str_plus = if (!is.null(latent.vars)) " + " else ""
 
+  if(random_effect_type == 'crossed'){ # subjects are in both groups
   fmla <- as.formula(
     object = paste0(" ~ group", str_plus, paste(latent.vars, collapse = " + "), paste(" + (1 |", random_effect.vars, ")", collapse=""))
   )
+  }
+  
+  if(random_effect_type == 'nested'){ # subjects are necessarily only in one group
+    fmla <- as.formula(
+      object = paste0(" ~ group", str_plus, paste(latent.vars, collapse = " + "), paste(" + (1 | group / ", random_effect.vars, ")"), paste(" + (1 |", random_effect.vars, ")", collapse = ""))
+    )
+  }
 
   # fit model parameters
   expr = quote(MAST::zlm(formula = fmla,
