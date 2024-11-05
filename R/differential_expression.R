@@ -289,7 +289,8 @@ DE_MAST_RE_seurat = function(
   
   if(random_effect_type == 'nested'){ # subjects are necessarily only in one group
     fmla <- as.formula(
-      object = paste0(" ~ group", str_plus, paste(latent.vars, collapse = " + "), paste(" + (1 | group / ", random_effect.vars, ")"), paste(" + (1 |", random_effect.vars, ")", collapse = ""))
+      #object = paste0(" ~ group", str_plus, paste(latent.vars, collapse = " + "), paste(" + (1 | group / ", random_effect.vars, ")"), paste(" + (1 |", random_effect.vars, ")", collapse = ""))
+      object = paste0(" ~ group", str_plus, paste(latent.vars, collapse = " + "), paste(" + (1 | group / ", random_effect.vars, ")"))
     )
   }
 
